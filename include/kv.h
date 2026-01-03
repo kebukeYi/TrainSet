@@ -140,11 +140,11 @@ namespace train_set {
 
         static int64_t nowMs();
 
-        bool isExpiredOfString(StringRecord &record, int64_t now_ms);
+        static bool isExpiredOfString(StringRecord &record, int64_t now_ms);
 
-        bool isExpiredOfHash(HashRecord &record, int64_t now_ms);
+        static bool isExpiredOfHash(HashRecord &record, int64_t now_ms);
 
-        bool isExpiredOfZSet(ZSetRecord &record, int64_t now_ms);
+        static bool isExpiredOfZSet(ZSetRecord &record, int64_t now_ms);
 
         void clearIfExpiredOfString(std::string& key, int64_t now_ms);
 

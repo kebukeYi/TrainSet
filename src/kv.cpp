@@ -383,7 +383,7 @@ namespace train_set {
     }
 
 
-    int KVStorage::hset(std::string key, std::string &field, std::string &value) {
+    int KVStorage::hset(std::string& key, std::string &field, std::string &value) {
         std::lock_guard<std::mutex> lockGuard(mtx);
         int64_t now_ms = nowMs();
         clearIfExpiredOfHash(key, now_ms);
@@ -496,19 +496,23 @@ namespace train_set {
         std::lock_guard<std::mutex> lockGuard(mtx);
         int64_t now_ms = nowMs();
         clearIfExpiredOfZSet(key, now_ms);
-        auto &rec = zset_records[key];
+        auto it = zset_records.find(key);
+        if (it == zset_records.end()) {
+            return 0;
+        }
+        auto &rec = it->second;
         auto mit = rec.member_to_score.find(member);
         if (mit == rec.member_to_score.end()) {
             if (!rec.useSkipList) {
                 auto vec = rec.items;
-                auto it = std::lower_bound(vec.begin(), vec.end(), std::make_pair(score, member),
+                auto vec_index = std::lower_bound(vec.begin(), vec.end(), std::make_pair(score, member),
                                            [](auto &a, auto &b) {
                                                if (a.first != b.first) {
                                                    return a.first < b.first;
                                                }
                                                return a.second < b.second;
                                            });
-                vec.insert(it, std::make_pair(score, member));
+                vec.insert(vec_index, std::make_pair(score, member));
                 if (vec.size() > ZSetVectorThreshold) {
                     rec.useSkipList = true;
                     rec.sl = std::make_unique<skipList>();
@@ -538,14 +542,14 @@ namespace train_set {
                         break;
                     }
                 }
-                auto it = std::lower_bound(vec.begin(), vec.end(), std::make_pair(score, member),
+                auto vec_index = std::lower_bound(vec.begin(), vec.end(), std::make_pair(score, member),
                                            [](auto &a, auto &b) {
                                                if (a.first != b.first) {
                                                    return a.first < b.first;
                                                }
                                                return a.second < b.second;
                                            });
-                vec.insert(it, std::make_pair(score, member));
+                vec.insert(vec_index, std::make_pair(score, member));
                 if (vec.size() > ZSetVectorThreshold) {
                     rec.useSkipList = true;
                     rec.sl = std::make_unique<skipList>();
@@ -612,7 +616,7 @@ namespace train_set {
     }
 
 
-    std::optional<double> KVStorage::zscore(std::string &key, std::string member) {
+    std::optional<double> KVStorage::zscore(std::string &key, std::string &member) {
         std::lock_guard<std::mutex> lockGuard(mtx);
         int64_t now_ms = nowMs();
         clearIfExpiredOfZSet(key, now_ms);
@@ -632,13 +636,15 @@ namespace train_set {
         int64_t now = nowMs();
         clearIfExpiredOfZSet(key, now);
         auto it = zset_records.find(key);
-        if (it == zset_records.end())
+        if (it == zset_records.end()){
             return 0;
+        }
         int removed = 0;
-        for (const auto &m: members) {
+        for ( auto &m: members) {
             auto mit = it->second.member_to_score.find(m);
-            if (mit == it->second.member_to_score.end())
+            if (mit == it->second.member_to_score.end()){
                 continue;
+            }
             double sc = mit->second;
             it->second.member_to_score.erase(mit);
             if (!it->second.useSkipList) {

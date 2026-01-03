@@ -9,8 +9,15 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(Threads REQUIRED)
 add_compile_options(-O3 -DNDEBUG)
 
-add_executable(trainset src/aof.cpp src/main.cpp
-        src/kv.cpp)
+add_executable(trainset
+        src/aof.cpp
+        src/main.cpp
+        src/kv.cpp
+        src/rdb.cpp
+        src/config_loader.cpp
+        src/resp.cpp
+        src/server.cpp
+)
 
 target_include_directories(trainset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 

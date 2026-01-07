@@ -102,7 +102,7 @@ The server can be configured via command-line arguments or configuration files:
 - `PING` - Ping the server
 - `INFO` - Get server information
 - `FLUSHALL` - Remove all keys
-- `KEYS pattern` - List keys matching pattern
+- `KEYS *` - List keys matching pattern
 
 ## Building and Running
 
@@ -163,7 +163,3 @@ The project includes comprehensive unit tests for all major components:
 - Key-value storage tests
 - Configuration loading tests
 - RESP protocol parsing tests
-
-## License
-
-This project is licensed under the MIT License.

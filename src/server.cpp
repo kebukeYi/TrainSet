@@ -802,12 +802,12 @@ namespace train_set {
             // INFO [section] -> ignore section for now
             std::string info;
             info.reserve(512);
-            info += "# Server\r\nredis_version:0.1.0\r\nrole:master\r\n";
+            info += "# Server\r\nversion:0.1.0\r\nrole:master\r\n";
             info += "# Clients\r\nconnected_clients:0\r\n";
             info += "# Stats\r\ntotal_connections_received:0\r\ntotal_commands_processed:0\r\ninstantaneous_ops_per_sec:0\r\n";
             info += "# Persistence\r\naof_enabled:";
             info += (g_aof.isEnabled() ? "1" : "0");
-            info += "\r\naof_rewrite_in_progress:0\r\nrdb_bgsave_in_progress:0\r\n";
+            info += "\r\naof_rewrite_in_progress:0\r\nrdb_bg_save_in_progress:0\r\n";
             info += "# Replication\r\nconnected_slaves:0\r\nmaster_repl_offset:" +
                     std::to_string(g_back_log_off) +
                     "\r\n";

@@ -102,7 +102,7 @@ TrainSet 是一个用 C++ 实现的高性能、兼容 Redis 的内存数据库�
 - `PING` - ping 服务器
 - `INFO` - 获取服务器信息
 - `FLUSHALL` - 删除所有键
-- `KEYS pattern` - 列出匹配模式的键
+- `KEYS *` - 列出匹配模式的键
 
 ## 构建和运行
 
@@ -110,7 +110,7 @@ TrainSet 是一个用 C++ 实现的高性能、兼容 Redis 的内存数据库�
 
 - C++17 兼容编译器
 - CMake 3.15 或更高版本
-- POSIX 兼容系统（Linux/macOS）
+- POSIX 兼容系统（Linux）
 
 ### 构建说明
 

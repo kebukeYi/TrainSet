@@ -64,6 +64,10 @@ namespace train_set {
 
         ~AOFManager();
 
+        AofConfig getConfig() const {
+            return config;
+        }
+
         bool init(const AofConfig &config, std::string &errM);
 
         bool load(KVStorage &storage, std::string &errM);

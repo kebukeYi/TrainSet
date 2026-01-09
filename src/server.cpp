@@ -144,8 +144,8 @@ namespace train_set {
 
 
     KVStorage g_store;
-    static AOFManager g_aof;
-    static RDBManager g_rdb;
+     AOFManager g_aof;
+     RDBManager g_rdb;
     // 主节点记录全局命令队列, 随时发往从节点;
     std::vector<std::vector<std::string>> g_repl_queue;
 
@@ -756,7 +756,7 @@ namespace train_set {
                 std::string appendfsync;
                 switch (g_aof.mode()) {
                     case AofMode::None:
-                        appendfsync = "no";
+                        appendfsync = "none";
                         break;
                     case AofMode::EverySec:
                         appendfsync = "everysec";
@@ -766,14 +766,14 @@ namespace train_set {
                         break;
                 }
                 kvs.emplace_back("appendfsync", appendfsync);
-                kvs.emplace_back("dir", "./data");
-                kvs.emplace_back("dbfilename", "dump.rdb");
-                kvs.emplace_back("save", "");
-                kvs.emplace_back("timeout", "0");
+                kvs.emplace_back("dir", g_aof.getConfig().dir);
+                kvs.emplace_back("dbfilename", g_aof.getConfig().file_name);
+                kvs.emplace_back("timeout", std::to_string(g_aof.getConfig().consume_aof_queue_us));
                 kvs.emplace_back("databases", "16");
                 kvs.emplace_back("maxmemory", "0");
                 std::string body;
                 size_t elems = 0;
+
                 if (pattern == "*") {
                     for (auto &p: kvs) {
                         body += respBulk(p.first);
@@ -802,15 +802,14 @@ namespace train_set {
             // INFO [section] -> ignore section for now
             std::string info;
             info.reserve(512);
-            info += "# Server\r\nversion:0.1.0\r\nrole:master\r\n";
+            info += "# TrainSet\r\nversion:0.1.0\r\nrole:master\r\n";
             info += "# Clients\r\nconnected_clients:0\r\n";
             info += "# Stats\r\ntotal_connections_received:0\r\ntotal_commands_processed:0\r\ninstantaneous_ops_per_sec:0\r\n";
             info += "# Persistence\r\naof_enabled:";
             info += (g_aof.isEnabled() ? "1" : "0");
             info += "\r\naof_rewrite_in_progress:0\r\nrdb_bg_save_in_progress:0\r\n";
             info += "# Replication\r\nconnected_slaves:0\r\nmaster_repl_offset:" +
-                    std::to_string(g_back_log_off) +
-                    "\r\n";
+                    std::to_string(g_back_log_off) +"\r\n";
             return respBulk(info);
         }
         return respError("ERR unknown command");

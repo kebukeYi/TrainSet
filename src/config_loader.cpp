@@ -58,6 +58,8 @@ namespace train_set {
                     config.aof_conf.mode = AofMode::Always;
                 } else if (value == "none") {
                     config.aof_conf.mode = AofMode::None;
+                } else if (value == "no") {
+                    config.aof_conf.mode = AofMode::No;
                 } else {
                     err = "invalid aof.mode at line " + std::to_string(line_num);
                     return false;

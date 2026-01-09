@@ -167,12 +167,10 @@ namespace train_set {
                 return false;
             }
             if (r == 0) {
-                std::cout<<"aof load finish"<<std::endl;
                 break;
             }
             data.append(buf.data(), static_cast<size_t>(r));
         }
-        std::cout<<"aof load end,data_len: "<<data.size()<<std::endl;
         ::close(fd_);
         size_t pos = 0;
         auto readline = [&](std::string &out) -> bool {

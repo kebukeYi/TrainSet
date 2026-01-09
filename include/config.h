@@ -9,6 +9,7 @@
 namespace train_set {
 
     enum class AofMode {
+        No,
         None,
         EverySec,
         Always

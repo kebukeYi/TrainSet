@@ -9,7 +9,7 @@
 #include <sys/uio.h>
 #include <algorithm>
 #include <iostream>
-#include "include/aof.h"
+#include "aof.h"
 
 namespace train_set {
     bool writeAllToFd(int fd, const char *data, size_t len) {

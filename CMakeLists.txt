@@ -1,40 +1,23 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(train_set LANGUAGES CXX)
+set(Target train_dis)
+
+project(${Target} LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+
 find_package(Threads REQUIRED)
 add_compile_options(-O3 -DNDEBUG)
 
-add_executable(train_set
-        src/aof.cpp
-        src/main.cpp
-        src/kv.cpp
-        src/rdb.cpp
-        src/config_loader.cpp
-        src/resp.cpp
-        src/server.cpp
-        src/replicate_client.cpp
-        src/resp_test.cpp
-        src/config_loader_test.cpp
-        src/kv_test.cpp
-        src/rdb_test.cpp
-        src/server_test.cpp
-        src/aof_test.cpp
-)
+# 先获取源文件列表
+add_subdirectory(src)
+include_directories(src/include)
 
-# 测试可执行文件
-add_executable(mpsc_ring_buffer_test
-        src/mpsc_ring_buffer_test.cpp
-)
+# 添加 src_list 到父级作用域，或者直接在子目录中创建可执行文件
+add_executable(${Target} ${src_list})
 
-target_include_directories(train_set PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-target_link_libraries(train_set PRIVATE Threads::Threads)
-
-target_include_directories(mpsc_ring_buffer_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-target_link_libraries(mpsc_ring_buffer_test PRIVATE Threads::Threads)
+target_link_libraries(${Target} PRIVATE Threads::Threads)

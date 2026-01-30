@@ -2,18 +2,18 @@
 <strong>
 <samp>
 
-[English](https://github.com/kebukeYi/TrainSet/blob/main/README.md) · [简体中文](https://github.com/kebukeYi/TrainSet/blob/main/README_zh.md)
+[English](https://github.com/kebukeYi/TrainDis/blob/main/README.md) · [简体中文](https://github.com/kebukeYi/TrainDis/blob/main/README_zh.md)
 
 </samp>
 </strong>
 </div>
 
 
-# TrainSet
+# TrainDis
 [![C++](https://img.shields.io/badge/C++17-00ADD8?style=flat&logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-TrainSet 是一个用 C++ 实现的高性能、兼容 Redis 的内存数据库。它提供键值存储，支持多种数据类型、持久化机制（AOF 和 RDB）以及主从复制功能。
+TrainDis 是一个用 C++ 实现的高性能、兼容 Redis 的内存数据库。它提供键值存储，支持多种数据类型、持久化机制（AOF 和 RDB）以及主从复制功能。
 
 ## 功能特性
 
@@ -125,10 +125,10 @@ make
 
 ```bash
 # 使用配置文件
-./train_set --config ../conf/always.conf
+./train_dis --config ../conf/always.conf
 
 # 使用命令行参数
-./train_set --port 6380 --bind 127.0.0.1
+./train_dis --port 6380 --bind 127.0.0.1
 ```
 
 ### 示例配置文件
@@ -150,7 +150,7 @@ make
 
 ## 复制
 
-TrainSet 支持主从复制：
+TrainDis 支持主从复制：
 - 从节点可以连接到主节点以接收数据更新
 - 初始同步通过 RDB 转储完成
 - 增量更新作为命令通过复制通道发送

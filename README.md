@@ -2,18 +2,18 @@
 <strong>
 <samp>
 
-[English](https://github.com/kebukeYi/TrainSet/blob/main/README.md) · [简体中文](https://github.com/kebukeYi/TrainSet/blob/main/README_zh.md)
+[English](https://github.com/kebukeYi/TrainDis/blob/main/README.md) · [简体中文](https://github.com/kebukeYi/TrainDis/blob/main/README_zh.md)
 
 </samp>
 </strong>
 </div>
 
-# TrainSet
+# TrainDis
 
 [![C++](https://img.shields.io/badge/C++17-00ADD8?style=flat&logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-TrainSet is a high-performance, Redis-compatible in-memory database implemented in C++. It provides key-value storage with support for multiple data types, persistence mechanisms (AOF and RDB), and master-slave replication.
+TrainDis is a high-performance, Redis-compatible in-memory database implemented in C++. It provides key-value storage with support for multiple data types, persistence mechanisms (AOF and RDB), and master-slave replication.
 
 ## Features
 
@@ -150,7 +150,7 @@ The repository includes several example configuration files:
 
 ## Replication
 
-TrainSet supports master-slave replication:
+TrainDis supports master-slave replication:
 - Slaves can connect to masters to receive data updates
 - Initial synchronization happens via RDB dump
 - Incremental updates are sent as commands over the replication channel

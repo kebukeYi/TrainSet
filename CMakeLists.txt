@@ -26,6 +26,15 @@ add_executable(train_set
         src/aof_test.cpp
 )
 
+# 测试可执行文件
+add_executable(mpsc_ring_buffer_test
+        src/mpsc_ring_buffer_test.cpp
+)
+
 target_include_directories(train_set PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(train_set PRIVATE Threads::Threads)
+
+target_include_directories(mpsc_ring_buffer_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+target_link_libraries(mpsc_ring_buffer_test PRIVATE Threads::Threads)

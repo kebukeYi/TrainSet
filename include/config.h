@@ -24,6 +24,10 @@ namespace train_set {
         size_t max_write_buffer_size = 256 * 1024;
         // 1500us; 聚合等待上限（微秒）
         int consume_aof_queue_us = 1500;
+        // 无锁队列开关
+        bool use_lockfree_queue = false;
+        // 无锁队列容量（2的幂次）
+        size_t lockfree_queue_capacity = 65536;
         // 预分配 aof 文件大小
         size_t file_pre_alloc_size = 64 * 1024 * 1024;
         // 每秒触发; everysec 实际同步周期（毫秒），可调平滑尾延迟

@@ -10,11 +10,15 @@
 #include <condition_variable>
 #include <atomic>
 #include <string>
+#include <memory>
 
 #include "config.h"
 #include "kv.h"
+#include "mpsc_ring_buffer.h"
 
 namespace train_set {
+
+struct AofQueueItem { std::string data; int64_t seq; };
 
     class AOFManager {
     private:
@@ -33,7 +37,7 @@ namespace train_set {
         std::mutex deque_mutex; // 队列锁;
         std::condition_variable write_cond; // 刷盘阻塞-唤醒;
         std::condition_variable write_commit;// 刷盘完成-唤醒;
-
+ 
         // 等待刷盘队列;
         std::deque<AofItem> write_queue;
         // 待刷盘字节大小;
@@ -41,6 +45,11 @@ namespace train_set {
         std::atomic<int64_t> seq{1};
         int64_t last_seq = 0;
         std::chrono::steady_clock::time_point last_write_time{std::chrono::steady_clock::now()};
+ 
+        // 无锁环形缓冲区
+        std::unique_ptr<train_set::MPSCRingBuffer<AofQueueItem>> lockfree_queue_;
+        bool using_lockfree_queue_ = false;
+
 
         std::atomic<bool> rewriting{false};
         std::thread rewriter_thread;
